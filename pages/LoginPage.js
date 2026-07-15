@@ -9,7 +9,7 @@ class LoginPage {
 
   async openLoginPage() {
     await this.page.goto(
-      "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+      "/web/index.php/auth/login",
     );
   }
 
@@ -19,7 +19,7 @@ class LoginPage {
     await this.loginButton.click();
   }
 
-  //Inside a class No need of using Function keyword
+  //Inside a class No need of using Function keyword, its a java script syntax
 
   splitValue(text, splitter) {
     return text.split(splitter)[1].trim();

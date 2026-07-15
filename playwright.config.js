@@ -10,6 +10,9 @@ export default defineConfig({
     channel: 'chrome',
     headless: false,
 
+    //Base Url
+    baseURL: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth',
+
     // Makes Playwright use the browser's actual window size
     viewport: null,
 

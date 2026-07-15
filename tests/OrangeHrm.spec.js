@@ -1,10 +1,13 @@
 const { test, expect } = require("@playwright/test");
 
 const LoginPage = require("../pages/LoginPage");
-const { get } = require("node:http");
+const DashboardPage = require('../pages/DashboardPage');
+const tetsData = require('../test-data/loginData.json')
+
 
 test("Login Orange Hrm Application", async ({ page }) => {
   const mylogin = new LoginPage(page);
+  const dashboard = new DashboardPage(page);
 
   let fetchuserCredentials = [];
 
@@ -12,9 +15,9 @@ test("Login Orange Hrm Application", async ({ page }) => {
 
   fetchuserCredentials = await mylogin.getLoginCredentials();
 
-  await mylogin.login(fetchuserCredentials[0], fetchuserCredentials[1]);
+  await mylogin.login(tetsData.validUser.userName, tetsData.validUser.password);
 
-  await expect(page).toHaveURL(/dashboard/);
+  await dashboard.verifyDashboardHeader();
 
-  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
+  
 });
