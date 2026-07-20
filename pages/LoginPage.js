@@ -1,6 +1,8 @@
-class LoginPage {
+const BasePage = require("./BasePage");
+
+class LoginPage extends BasePage {
   constructor(page) {
-    this.page = page;
+    super(page);
 
     this.usernameInput = page.getByPlaceholder("Username");
     this.passwordInput = page.getByPlaceholder("Password");
@@ -8,15 +10,16 @@ class LoginPage {
   }
 
   async openLoginPage() {
-    await this.page.goto(
-      "/web/index.php/auth/login",
-    );
+    await this.navigate("/web/index.php/auth/login");
   }
 
   async login(userName, password) {
-    await this.usernameInput.fill(userName);
-    await this.passwordInput.fill(password);
-    await this.loginButton.click();
+    
+    await this.fill(this.usernameInput, userName);
+    await this.fill(this.passwordInput, password);
+    await this.click(this.loginButton);
+
+    
   }
 
   //Inside a class No need of using Function keyword, its a java script syntax
@@ -35,10 +38,10 @@ class LoginPage {
         .textContent();
 
       credentials.push(this.splitValue(fetchloginDetails, ":"));
-
-      console.log("User Name: " + credentials[0]);
-      console.log("Password: " + credentials[1]);
     }
+
+    console.log("User Name: " + credentials[0]);
+    console.log("Password: " + credentials[1]);
     return credentials;
   }
 }
