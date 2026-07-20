@@ -1,23 +1,26 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("../fixtures/baseFixture.js");
 
-const LoginPage = require("../pages/LoginPage");
-const DashboardPage = require('../pages/DashboardPage');
+// const LoginPage = require("../pages/LoginPage");
+// const DashboardPage = require('../pages/DashboardPage');
 const tetsData = require('../test-data/loginData.json')
 
 
-test("Login Orange Hrm Application", async ({ page }) => {
-  const mylogin = new LoginPage(page);
-  const dashboard = new DashboardPage(page);
+test("Login Orange Hrm Application", async ({ loginPage , dashboardPage }) => {
+  
+  // These are called from fixture
+  
+  // const mylogin = new LoginPage(page);
+  // const dashboard = new DashboardPage(page);
 
   let fetchuserCredentials = [];
 
-  await mylogin.openLoginPage();
+  await loginPage.openLoginPage();
 
-  fetchuserCredentials = await mylogin.getLoginCredentials();
+  fetchuserCredentials = await loginPage.getLoginCredentials();
 
-  await mylogin.login(tetsData.validUser.userName, tetsData.validUser.password);
+  await loginPage.login(tetsData.validUser.userName, tetsData.validUser.password);
 
-  await dashboard.verifyDashboardHeader();
+  await dashboardPage.verifyDashboardHeader();
 
   
 });
