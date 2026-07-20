@@ -1,9 +1,10 @@
 const {expect} = require('@playwright/test');
-class DashboardPage {
+const BasePage = require('./BasePage');
+class DashboardPage extends BasePage{
 
 
   constructor(page) {
-    this.page = page;
+    super(page);
     this.headerLocator = page.getByRole('heading',{name: 'Dashboard'});
   }
 
