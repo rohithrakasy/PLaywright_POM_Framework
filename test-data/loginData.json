@@ -2,5 +2,9 @@
     "validUser":{
         "userName": "Admin",
         "password": "admin123"
+    },
+    "pfaData":{
+        "userName": "rohith@coreaiconsulting.com",
+        "password": "test1234"
     }
 }

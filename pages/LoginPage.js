@@ -7,10 +7,16 @@ class LoginPage extends BasePage {
     this.usernameInput = page.getByPlaceholder("Username");
     this.passwordInput = page.getByPlaceholder("Password");
     this.loginButton = page.getByRole("button", { name: "Login" });
+
+    this.userNameInputDataPFA = page.getByPlaceholder("johndoe@email.com");
+    this.passwordInputDataPFA = page.locator('#password');
+    this.loginBtnPfa = page.getByRole("button",{ name: "Sign In"})
   }
 
   async openLoginPage() {
-    await this.navigate("/web/index.php/auth/login");
+    // await this.navigate("/web/index.php/auth/login");
+
+    await this.navigate("/dashboard/home");
   }
 
   async login(userName, password) {
@@ -20,6 +26,12 @@ class LoginPage extends BasePage {
     await this.click(this.loginButton);
 
     
+  }
+
+  async loginPFA(userName, password){
+    await this.fill(this.userNameInputDataPFA, userName);
+    await this.fill(this.passwordInputDataPFA, password);
+    await this.click(this.loginBtnPfa);
   }
 
   //Inside a class No need of using Function keyword, its a java script syntax
