@@ -2,5 +2,10 @@
     "validUser":{
         "userName": "Admin",
         "password": "admin123"
+    },
+    "pfaData":{
+        "userName": "rohith+pfaadmin@coreaiconsulting.com",
+        "password": "test1234",
+        "device_id": "PFA-device-540"
     }
 }

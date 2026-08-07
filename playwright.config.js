@@ -19,6 +19,8 @@ export default defineConfig({
 
     baseURL: environments[environment].baseURL,
 
+    storageState: 'playwright/.auth/user.json',
+
     // Makes Playwright use the browser's actual window size
     viewport: null,
 
