@@ -4,7 +4,8 @@
         "password": "admin123"
     },
     "pfaData":{
-        "userName": "rohith@coreaiconsulting.com",
-        "password": "test1234"
+        "userName": "rohith+pfaadmin@coreaiconsulting.com",
+        "password": "test1234",
+        "device_id": "PFA-device-540"
     }
 }

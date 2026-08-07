@@ -1,0 +1,44 @@
+class ApiService {
+    constructor(requestContext){
+        this.requestContext = requestContext;
+    }
+
+    async login({email,password,device_id}){
+
+        const response = await this.requestContext.post('/api/auth/userlogin',{
+            data:{
+                email,
+                password,
+                device_id
+            }
+        });
+
+        const responseBody = await response.json();
+        const token = await responseBody.token;
+        return token;
+    }
+
+    async fetchTenantId({email,password,device_id}){
+        const response = await this.requestContext.post('/api/auth/userlogin', {
+            data:{
+                email,
+                password,device_id
+            }
+        });
+
+        const responseBody = await response.json();
+        const tenantId = await responseBody.payload.user.tenant_id.id;
+        // console.log("Tenant ID: "+ tenantId);
+        return tenantId;
+    }
+
+    async closeApiResource(){
+        await this.requestContext.dispose();
+        console.log("Closing Api resource");
+
+    }
+
+
+}
+
+export default ApiService;
