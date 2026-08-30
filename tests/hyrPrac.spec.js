@@ -619,7 +619,7 @@ test("Validate Upload Files in Underwriting", async ({ browser }) => {
   await page.pause();
 });
 
-test.only("Validate Upload Files in Underwriting in Status In Progress", async ({ browser }) => {
+test("Validate Upload Files in Underwriting in Status In Progress", async ({ browser }) => {
   const context = await browser.newContext();
 
   await context.grantPermissions(["notifications"], {
@@ -722,7 +722,7 @@ test.only("Validate Upload Files in Underwriting in Status In Progress", async (
   await page.pause();
 });
 
-test.only("Validate Download Functionallity", async({browser})=>{
+test("Validate Download Functionallity", async({browser})=>{
 
   const context = await browser.newContext();
 
@@ -763,6 +763,12 @@ test.only("Validate Download Functionallity", async({browser})=>{
 
   await page.getByRole('button',{name:'Open Review',exact:true}).click();
 
+  const deleteBtn =  page.locator("button.text-muted-foreground").last();
+  if(deleteBtn.isVisible()){
+    await deleteBtn.click();
+  }
+
+
   
 
   const [chooseFile] = await Promise.all([
@@ -797,7 +803,7 @@ test.only("Validate Download Functionallity", async({browser})=>{
   console.log("Downloaded successfully");
 
 
-  const deleteBtn =  page.locator("button.text-muted-foreground").last();
+  // const deleteBtn =  page.locator("button.text-muted-foreground").last();
 
   if(deleteBtn.isVisible()){
     await deleteBtn.click();
@@ -811,5 +817,49 @@ test.only("Validate Download Functionallity", async({browser})=>{
 
 
 
+
+});
+
+
+test.only("Validate Underwriting sTatus In progress", async({browser})=>{
+
+  const context = await browser.newContext();
+
+  await context.grantPermissions(['notifications'],{
+    origin:"https://dev.suretyforce.com/login"
+  });
+
+  const page = await context.newPage();
+
+  await page.goto("https://dev.suretyforce.com/login");
+
+  await page.waitForLoadState('domcontentloaded');
+
+  await page.getByPlaceholder("johndoe@email.com").fill("rohith+pfaadmin@coreaiconsulting.com");
+  await page.locator("input[type='password']").fill("test1234");
+  await page.getByRole('button',{name:'Sign In'}).click();
+
+  await page.getByRole("button", { name: "Skip for Now" }).click();
+
+  await page.getByText('Underwriting').click();
+
+  await page.waitForLoadState("domcontentloaded");
+
+  await page.getByPlaceholder("Search applicants...").fill("Test User Trucking Service");
+
+  const firstTable = page.locator("table.w-full").first();
+
+  const checkFirstRow = await firstTable.locator("tbody tr td");
+
+  await checkFirstRow.nth(0).locator("button[role='checkbox']").click();
+
+  const fetchStatus = await checkFirstRow.nth(3).locator("div").textContent();
+  console.log("Company Status: "+ fetchStatus);
+
+  await expect(fetchStatus).toBe("In Progress");
+
+  await checkFirstRow.nth(1).locator("div div").first().click();
+
+  await page.getByRole('button',{name:'Open Review',exact:true}).click();
 
 });
