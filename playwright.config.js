@@ -1,4 +1,4 @@
-import { chromium, defineConfig, devices } from '@playwright/test';
+import { chromium, defineConfig, devices, firefox } from '@playwright/test';
 import environments from './config/env';
 
 const environment = process.env.TEST_ENV || 'dev';
@@ -6,18 +6,31 @@ const environment = process.env.TEST_ENV || 'dev';
 export default defineConfig({
   testDir: './tests',
 
-  workers:3,
+  // workers:3,
 
-  retries: 2,
+  // retries: 2,
 
-  projects:[
-    {
-      name:'chromium',
-      use: {
-        ...devices['Desktop Chrome']
+  projects: [{
+    name: 'chromium',
+    use: {
+      ...devices['Desktop Chrome']
     }
-  ]
+  },
+  {
+    name: 'firefox',
+    use: {
+      ...devices['Desktop Firefox']
+    }
+  },
+  {
+    name: 'webkit',
+    use: {
+      ...devices['Desktop Safari']
+    }
+  }
 
+
+  ],
   timeout: 30000,
 
   reporter: 'html',
@@ -31,7 +44,7 @@ export default defineConfig({
 
     // baseURL: environments[environment].baseURL,
 
-    storageState: 'playwright/.auth/user.json',
+    // storageState: 'playwright/.auth/user.json',
 
     // Makes Playwright use the browser's actual window size
     viewport: null,
