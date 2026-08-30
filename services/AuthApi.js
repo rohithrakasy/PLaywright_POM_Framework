@@ -6,6 +6,8 @@ class AuthApi extends BaseApi {
     super(requestContext);
   }
 
+   
+
   async login(loginrequestData) {
     const response = await this.post("/api/auth/userlogin", loginrequestData);
 
@@ -24,7 +26,7 @@ class AuthApi extends BaseApi {
       );
     }
 
-    return fetchresponseJson.token;
+    return fetchresponseJson;
     
   }
 
