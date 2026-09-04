@@ -22,15 +22,15 @@ on:
                     - DeV
                     - Main
         
-        browser:
-            description: "Select Browser"
-            required : true
-            default: 'chromium'
-            type: choice
-            options:
-                - chromium
-                - firefox
-                - webkit
+            browser:
+                 description: "Select Browser"
+                 required : true
+                 default: 'chromium'
+                 type: choice
+                 options:
+                  - chromium
+                  - firefox
+                  - webkit
 
         
 
