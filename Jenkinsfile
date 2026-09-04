@@ -1,25 +1,32 @@
-pipeline{
+pipeline {
     agent any
-    tools{
+
+    tools {
         nodejs 'NodeJS-20'
     }
-    stages{
 
-        stage('Checkout'){
+    stages {
+
+        stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Install Dependencies'){
-
-            steps{
+        stage('Install Dependencies') {
+            steps {
                 bat 'npm ci'
             }
         }
 
-        stage('Run Playwright Tests'){
-            steps{
+        stage('Install Playwright Browsers') {
+            steps {
+                bat 'npx playwright install'
+            }
+        }
+
+        stage('Run Playwright Tests') {
+            steps {
                 bat 'npx playwright test hyrPrac.spec.js'
             }
         }
