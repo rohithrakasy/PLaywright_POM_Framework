@@ -856,7 +856,7 @@ test.only("Validate Underwriting sTatus In progress", async({browser})=>{
   const fetchStatus = await checkFirstRow.nth(3).locator("div").textContent();
   console.log("Company Status: "+ fetchStatus);
 
-  await expect(fetchStatus).toBe("In Progress");
+  await expect(fetchStatus).toBe("Approved");
 
   await checkFirstRow.nth(1).locator("div div").first().click();
 

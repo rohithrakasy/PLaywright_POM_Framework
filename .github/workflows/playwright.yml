@@ -28,14 +28,14 @@ on:
                  default: 'chromium'
                  type: choice
                  options:
-                  - chromium
-                  - firefox
-                  - webkit
+                    - chromium
+                    - firefox
+                    - webkit
 
         
 
 jobs:
-    playwright-test:
+    playwright-Regression-test:
         runs-on: ubuntu-latest
 
         steps:
