@@ -44,6 +44,7 @@ export default defineConfig({
     // channel: 'chrome',
 
     // headless: false,
+    //Works only in local
 
     headless: !!process.env.CI,
 
