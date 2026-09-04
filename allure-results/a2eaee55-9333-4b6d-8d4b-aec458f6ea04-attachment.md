@@ -1,0 +1,179 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: CrossBrowserAllureReportTest.spec.js >> Validate CrossBrowser and Allure Reporting
+- Location: tests\CrossBrowserAllureReportTest.spec.js:3:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e6]:
+          - img [ref=e8]
+          - generic [ref=e10]: SuretyForce
+        - generic [ref=e12]:
+          - img [ref=e13]
+          - searchbox "Search by name or ID…" [ref=e16]
+          - img [ref=e18]
+        - button "58" [ref=e22] [cursor=pointer]:
+          - img
+          - generic [ref=e23]: "58"
+    - generic [ref=e24]:
+      - complementary [ref=e25]:
+        - generic [ref=e26]:
+          - navigation [ref=e27]:
+            - link "Home" [ref=e28] [cursor=pointer]:
+              - /url: /dashboard/home
+              - img [ref=e29]
+              - text: Home
+            - generic [ref=e32]:
+              - heading "Business Operations" [level=3] [ref=e33]
+              - generic [ref=e34]:
+                - link "Bonds" [ref=e35] [cursor=pointer]:
+                  - /url: /dashboard/bonds
+                  - img [ref=e36]
+                  - text: Bonds
+                - link "Underwriting" [ref=e42] [cursor=pointer]:
+                  - /url: /dashboard/underwriting
+                  - img [ref=e43]
+                  - text: Underwriting
+                - link "Trust" [ref=e48] [cursor=pointer]:
+                  - /url: /dashboard/trust
+                  - img [ref=e49]
+                  - text: Trust
+                - link "Claims" [ref=e51] [cursor=pointer]:
+                  - /url: /dashboard/claims
+                  - img [ref=e52]
+                  - text: Claims
+                - link "Insurance" [ref=e58] [cursor=pointer]:
+                  - /url: /dashboard/insurance
+                  - img [ref=e59]
+                  - text: Insurance
+                - link "Commercial Surety" [ref=e63] [cursor=pointer]:
+                  - /url: /dashboard/surety
+                  - img [ref=e64]
+                  - text: Commercial Surety
+            - generic [ref=e72]:
+              - heading "Data" [level=3] [ref=e73]
+              - generic [ref=e74]:
+                - link "Companies" [ref=e75] [cursor=pointer]:
+                  - /url: /dashboard/brokers
+                  - img [ref=e76]
+                  - text: Companies
+                - link "People" [ref=e81] [cursor=pointer]:
+                  - /url: /dashboard/people
+                  - img [ref=e82]
+                  - text: People
+                - link "Tasks" [ref=e86] [cursor=pointer]:
+                  - /url: /dashboard/tasks
+                  - img [ref=e87]
+                  - text: Tasks
+                - link "Fraud Alerts" [ref=e90] [cursor=pointer]:
+                  - /url: /dashboard/logs/fraud
+                  - img [ref=e91]
+                  - text: Fraud Alerts
+                - link "Campaigns" [ref=e95] [cursor=pointer]:
+                  - /url: /dashboard/campaigns
+                  - img [ref=e96]
+                  - text: Campaigns
+                - link "Segments" [ref=e99] [cursor=pointer]:
+                  - /url: /dashboard/segments
+                  - img [ref=e100]
+                  - text: Segments
+                - link "Reports" [ref=e104] [cursor=pointer]:
+                  - /url: /dashboard/reports
+                  - img [ref=e105]
+                  - text: Reports
+                - link "Audit" [ref=e109] [cursor=pointer]:
+                  - /url: /dashboard/logs
+                  - img [ref=e110]
+                  - text: Audit
+          - button "R Rohith K Admin" [ref=e116] [cursor=pointer]:
+            - generic [ref=e118]: R
+            - generic [ref=e119]:
+              - paragraph [ref=e120]: Rohith K
+              - paragraph [ref=e121]: Admin
+            - img
+      - main [ref=e122]:
+        - generic [ref=e124]:
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - heading "Good morning, Rohith K" [level=1] [ref=e127]
+              - paragraph [ref=e128]: Monday, August 31, 2026
+            - button "Quick Actions" [ref=e130] [cursor=pointer]:
+              - img
+              - text: Quick Actions
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - generic [ref=e134]:
+                  - generic [ref=e136]: Overdue Tasks
+                  - generic [ref=e137]: Tasks past their due date
+                - img [ref=e140]
+                - link "View All Tasks" [ref=e143] [cursor=pointer]:
+                  - /url: /dashboard/tasks
+                  - img
+                  - text: View All Tasks
+              - generic [ref=e144]:
+                - generic [ref=e145]:
+                  - generic [ref=e146]: My Items
+                  - generic [ref=e147]: Items assigned to you
+                - img [ref=e150]
+              - generic [ref=e152]:
+                - generic [ref=e153]:
+                  - generic [ref=e155]:
+                    - img [ref=e156]
+                    - text: Fraud Alerts
+                  - generic [ref=e160]: Active fraud alerts by type
+                - generic [ref=e162]:
+                  - tablist [ref=e163]:
+                    - tab "Informational" [selected] [ref=e164] [cursor=pointer]
+                    - tab "Suspected" [ref=e165] [cursor=pointer]
+                    - tab "Confirmed" [ref=e166] [cursor=pointer]
+                  - tabpanel "Informational" [ref=e167]:
+                    - img [ref=e169]
+                - link "View All" [ref=e172] [cursor=pointer]:
+                  - /url: /dashboard/logs/fraud
+                  - img
+                  - text: View All
+            - generic [ref=e173]:
+              - generic [ref=e174]:
+                - generic [ref=e175]:
+                  - generic [ref=e177]: Today's Tasks
+                  - generic [ref=e178]: Tasks due today
+                - img [ref=e181]
+                - link "View All Tasks" [ref=e184] [cursor=pointer]:
+                  - /url: /dashboard/tasks
+                  - img
+                  - text: View All Tasks
+              - generic [ref=e185]:
+                - generic [ref=e186]:
+                  - generic [ref=e187]: Recent Activities
+                  - generic [ref=e188]: Latest actions and updates
+                - generic [ref=e190]:
+                  - img [ref=e191]
+                  - generic [ref=e193]: Loading activities…
+                - button "View All Activities" [ref=e195] [cursor=pointer]:
+                  - img
+                  - text: View All Activities
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - alert [ref=e196]
+```

@@ -10,30 +10,34 @@ export default defineConfig({
 
   // retries: 2,
 
-  projects: [{
-    name: 'chromium',
-    use: {
-      ...devices['Desktop Chrome']
-    }
-  },
-  {
-    name: 'firefox',
-    use: {
-      ...devices['Desktop Firefox']
-    }
-  },
-  {
-    name: 'webkit',
-    use: {
-      ...devices['Desktop Safari']
-    }
-  }
+  // projects: [{
+  //   name: 'chromium',
+  //   use: {
+  //     ...devices['Desktop Chrome']
+  //   }
+  // },
+  // {
+  //   name: 'firefox',
+  //   use: {
+  //     ...devices['Desktop Firefox']
+  //   }
+  // },
+  // {
+  //   name: 'webkit',
+  //   use: {
+  //     ...devices['Desktop Safari']
+  //   }
+  // }
 
 
-  ],
+  // ],
+  
   timeout: 30000,
 
-  reporter: 'html',
+  reporter: [['html',{
+    outputFolder:'playwright-report',
+    open: 'never'
+  }],['list'],['allure-playwright']],
 
   use: {
     browserName: 'firefox',
