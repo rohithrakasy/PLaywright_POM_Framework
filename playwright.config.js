@@ -42,7 +42,11 @@ export default defineConfig({
   use: {
     browserName: 'firefox',
     // channel: 'chrome',
-    headless: false,
+
+    // headless: false,
+
+    headless: !!process.env.CI,
+
 
     //Base Url
 
