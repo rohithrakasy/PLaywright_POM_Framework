@@ -30,10 +30,11 @@ pipeline {
             }
         }
 
-        post {
+    }
+
+    post {
             always {
                 archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
             }
-        }
     }
 }
