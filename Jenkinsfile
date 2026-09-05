@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -30,5 +29,21 @@ pipeline {
                 bat 'npx playwright test hyrPrac.spec.js'
             }
         }
+
+    }
+
+    post {
+            always {
+                archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+
+                publishHTML(target: [
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright HTML Report',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: true
+            ])
+            }
     }
 }
