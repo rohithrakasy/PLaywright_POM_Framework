@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -28,6 +27,12 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 bat 'npx playwright test hyrPrac.spec.js'
+            }
+        }
+
+        post {
+            always {
+                archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
             }
         }
     }
