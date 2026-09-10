@@ -2,7 +2,7 @@ export class UnderwritingPage {
   constructor(page) {
     this.page = page;
 
-    this.underwritingModule = page.getByText("Underwriting");
+    this.underwritingModule = page.getByRole('link',{name:'Underwriting', exact:true});
     this.searchforApplicants = page.getByPlaceholder("Search applicants...");
     this.underwritingPendingApplicationsTable = page.locator("table.w-full");
 
