@@ -1,7 +1,5 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../fixtures/pfaBaseFixtures";
 
-import { PfaLoginPage } from "../pages/PfaLoginPage";
-import { UnderwritingPage } from "../pages/UnderwritingPage";
 import {
   feature,
   story,
@@ -11,35 +9,42 @@ import {
 } from "allure-js-commons";
 import { attachment } from "allure-js-commons";
 
-test.only("Underwriting Module", async ({ browser }) => {
-  const context = await browser.newContext();
+test.only("Underwriting Module", async ({
+  authenticationPage,
+  pfaLoginPage,
+  underwritingPage
+}) => {
 
-  await context.grantPermissions(["notifications"], {
-    origin: "https://dev.suretyforce.com/login",
-  });
+  const page = authenticationPage;
 
-  const page = await context.newPage();
+  // const context = page.context();
 
-  const pfaLoginPage = new PfaLoginPage(page);
-  const underwritingPage = new UnderwritingPage(page);
+  // await context.grantPermissions(["notifications"], {
+  //   origin: "https://dev.suretyforce.com",
+  // });
+
+  // const pfaLoginPage = new PfaLoginPage(page);
+  // const underwritingPage = new UnderwritingPage(page);
+
+  
 
   await feature("Underwriting");
   await owner("Rrk");
   await severity("normal");
 
   //Navigate to Login Page
-  await test.step("Navigate to Login Page", async () => {
-    await pfaLoginPage.navigateToWebsite("https://dev.suretyforce.com/login");
-  });
+  // await test.step("Navigate to Login Page", async () => {
+  //   await pfaLoginPage.navigateToWebsite("https://dev.suretyforce.com");
+  // });
 
-  await test.step("Login with Valid Credentials", async () => {
-    await pfaLoginPage.Userlogin(
-      "rohith+pfaadmin@coreaiconsulting.com",
-      "test1234",
-    );
+  // await test.step("Login with Valid Credentials", async () => {
+  //   await pfaLoginPage.Userlogin(
+  //     "rohith+pfaadmin@coreaiconsulting.com",
+  //     "test1234",
+  //   );
 
-    await pfaLoginPage.clickNotifications();
-  });
+  //   await pfaLoginPage.clickNotifications();
+  // });
 
   await test.step("Perform Validation in Underwriting functionality", async () => {
     await underwritingPage.clickonUnderwritingModule();
@@ -62,5 +67,5 @@ test.only("Underwriting Module", async ({ browser }) => {
     await underwritingPage.clickChecboxofSignedApp();
   });
 
-  await page.close();
+  // await page.close();
 });
