@@ -17,34 +17,13 @@ test.only("Underwriting Module", async ({
 
   const page = authenticationPage;
 
-  // const context = page.context();
-
-  // await context.grantPermissions(["notifications"], {
-  //   origin: "https://dev.suretyforce.com",
-  // });
-
-  // const pfaLoginPage = new PfaLoginPage(page);
-  // const underwritingPage = new UnderwritingPage(page);
-
-  
+ 
 
   await feature("Underwriting");
   await owner("Rrk");
   await severity("normal");
 
-  //Navigate to Login Page
-  // await test.step("Navigate to Login Page", async () => {
-  //   await pfaLoginPage.navigateToWebsite("https://dev.suretyforce.com");
-  // });
-
-  // await test.step("Login with Valid Credentials", async () => {
-  //   await pfaLoginPage.Userlogin(
-  //     "rohith+pfaadmin@coreaiconsulting.com",
-  //     "test1234",
-  //   );
-
-  //   await pfaLoginPage.clickNotifications();
-  // });
+  
 
   await test.step("Perform Validation in Underwriting functionality", async () => {
     await underwritingPage.clickonUnderwritingModule();
