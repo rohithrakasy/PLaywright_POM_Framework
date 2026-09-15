@@ -6,12 +6,15 @@ import {
   generateDotNumber,
 } from "../utils/generateRandomNumbers";
 
+import pfaLogin from '../test-data/loginData.json';
+
 const testExcelData = readExcel(
   "test-data/filtered_person_data.xlsx",
   "Extracted Data",
 );
 
 test("Create a Bond Application", async ({ browser }) => {
+  // let companyName = "TRAVIS Trucking Services";
   // const page = authenticationPage;
   const context = await browser.newContext();
 
@@ -28,8 +31,8 @@ test("Create a Bond Application", async ({ browser }) => {
   // Login
   await page
     .getByPlaceholder("johndoe@email.com")
-    .fill("rohith+pfaadmin@coreaiconsulting.com");
-  await page.getByPlaceholder("••••••••").fill("test1234");
+    .fill(pfaLogin.pfaData.userName);
+  await page.getByPlaceholder("••••••••").fill(pfaLogin.pfaData.password);
   await page.getByRole("button", { name: "Sign In", exact: true }).click();
 
   //Skip MFA
@@ -42,7 +45,7 @@ test("Create a Bond Application", async ({ browser }) => {
   await page.waitForURL((url) => url.href.includes("bonds"));
 
   // Read details from 1st row
-  const applicationData = testExcelData[5];
+  const applicationData = testExcelData[6];
   console.log(applicationData);
 
   const firstName = applicationData["First Name"];
@@ -127,6 +130,8 @@ test("Create a Bond Application", async ({ browser }) => {
   //   //   await cells.last().locator("button[type='button']")
 
   //   await page.getByText("Continue Application", { exact: true }).click();
+
+  /* General Info */
 
   //Fill General Information To Move status from Info Pending to Credit Check
 
@@ -253,13 +258,32 @@ test("Create a Bond Application", async ({ browser }) => {
 
   //   await page.getByText("Continue Application", { exact: true }).click();
 
-  await page.pause();
+  // await page.pause();
 
-  await page.getByRole('button',{name:'Continue',exact:true}).click();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+
+  // Search for Comapny Name
+  // await page.pause();
+
+  await page
+    .getByPlaceholder("Search broker, contact, or ID...")
+    .fill(companyName);
+
+  const row = page.locator("table.caption-bottom tbody tr").first();
+
+  const cell = row.locator("td");
+
+  const fetchBrokerName = await cell.nth(0).locator("div a").textContent();
+
+  expect(fetchBrokerName?.trim()).toBe(companyName);
+
+  await cell.nth(6).click();
+
+  await page.getByText("View Details").click();
 
   //Click on Quotes Tab
 
-  await page.getByRole("button", { name: "Quotes" }).click();
+  await page.locator("div[role='tablist'] button").nth(2).click();
 
   const approveBtn = page.getByRole("button", { name: "Approve", exact: true });
 
@@ -267,22 +291,19 @@ test("Create a Bond Application", async ({ browser }) => {
 
   await approveBtn.click();
 
-  await page.getByRole('button',{name:'Send Quote'}).click();
+  await page.getByRole("button", { name: "Send Quote" }).click();
 
-  const acceptQuote = page.getByRole('button',{name:'Accept'});
+  const acceptQuote = page.getByRole("button", { name: "Accept" });
 
-  if(acceptQuote.isDisabled()){
-
+  if (acceptQuote.isDisabled()) {
     await page.locator("button.border-purple-300").click();
 
     await acceptQuote.click();
-
   }
 
-  await page.getByRole('button',{name:'Move to Underwriting',exact:true}).click();
+  await page
+    .getByRole("button", { name: "Move to Underwriting", exact: true })
+    .click();
 
-  
-
-
-  
+    
 });
