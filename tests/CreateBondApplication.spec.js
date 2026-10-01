@@ -6,7 +6,7 @@ import {
   generateDotNumber,
 } from "../utils/generateRandomNumbers";
 
-import pfaLogin from '../test-data/loginData.json';
+import pfaLogin from "../test-data/loginData.json";
 
 const testExcelData = readExcel(
   "test-data/filtered_person_data.xlsx",
@@ -18,21 +18,40 @@ test("Create a Bond Application", async ({ browser }) => {
   // const page = authenticationPage;
   const context = await browser.newContext();
 
-  await context.grantPermissions(["notifications"], {
-    origin: "https://dev.suretyforce.com/login",
+
+  //// DEV
+  // await context.grantPermissions(["notifications"], {
+  //   origin: "https://dev.suretyforce.com/login",
+  // });
+
+  //Staging
+  await context.grantPermissions(["notifications"],{
+    origin: "https://staging.suretyforce.com/login"
   });
 
   const page = await context.newPage();
 
-  await page.goto("https://dev.suretyforce.com/login");
+
+  //DEV
+  // await page.goto("https://dev.suretyforce.com/login");
+
+  //STAGING
+  await page.goto("https://staging.suretyforce.com/login");
 
   await page.waitForLoadState("domcontentloaded");
 
-  // Login
+  // // Login for DEV
+  // await page
+  //   .getByPlaceholder("johndoe@email.com")
+  //   .fill(pfaLogin.pfaData.userName);
+  // await page.getByPlaceholder("••••••••").fill(pfaLogin.pfaData.password);
+  // await page.getByRole("button", { name: "Sign In", exact: true }).click();
+
+  // Login for Staging
   await page
     .getByPlaceholder("johndoe@email.com")
-    .fill(pfaLogin.pfaData.userName);
-  await page.getByPlaceholder("••••••••").fill(pfaLogin.pfaData.password);
+    .fill(pfaLogin.pfaStagingData.userName);
+  await page.getByPlaceholder("••••••••").fill(pfaLogin.pfaStagingData.password);
   await page.getByRole("button", { name: "Sign In", exact: true }).click();
 
   //Skip MFA
@@ -45,7 +64,7 @@ test("Create a Bond Application", async ({ browser }) => {
   await page.waitForURL((url) => url.href.includes("bonds"));
 
   // Read details from 1st row
-  const applicationData = testExcelData[6];
+  const applicationData = testExcelData[17];
   console.log(applicationData);
 
   const firstName = applicationData["First Name"];
@@ -66,6 +85,8 @@ test("Create a Bond Application", async ({ browser }) => {
   let companyName = `${firstName} Trucking Services`;
   //Generate Random DOT Number
   let dotNumber = generateDotNumber();
+
+  console.log("DOT Number: ", dotNumber);
 
   //Click on New Bond
   await page.getByText("New Bond", { exact: true }).click();
@@ -103,6 +124,8 @@ test("Create a Bond Application", async ({ browser }) => {
   await page.locator("input[type='email']").fill(email);
   await page.getByPlaceholder("Company name").fill(companyName);
   await page.locator("input#nc-dotNumber").fill(dotNumber.toString());
+
+  await page.pause();
 
   await page
     .getByRole("button", { name: "Start Application", exact: true })
@@ -301,9 +324,26 @@ test("Create a Bond Application", async ({ browser }) => {
     await acceptQuote.click();
   }
 
-  await page
-    .getByRole("button", { name: "Move to Underwriting", exact: true })
-    .click();
+  //Click on Move to Underwriting
 
-    
+  const moveToUnderwritingBtn = page.getByRole("button", {
+    name: "Move to Underwriting",
+    exact: true,
+  });
+
+  // Wait until button appears
+  await expect(moveToUnderwritingBtn).toBeVisible({
+    timeout: 30000,
+  });
+
+  // Verify button is enabled
+  await expect(moveToUnderwritingBtn).toBeEnabled();
+
+  // Click
+  await moveToUnderwritingBtn.click();
+
+  // IMPORTANT: verify the application actually moved
+  await expect(page.getByText("Underwriting Pending", { exact: true })).toBeVisible({
+    timeout: 30000,
+  });
 });

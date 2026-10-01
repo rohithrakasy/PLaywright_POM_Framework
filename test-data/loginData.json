@@ -7,5 +7,10 @@
         "userName": "rohith+pfaadmin@coreaiconsulting.com",
         "password": "test1234",
         "device_id": "PFA-device-540"
+    },
+    "pfaStagingData":{
+        "userName": "rohith+staging@coreaiconsulting.com",
+        "password": "test12345",
+        "device_id": "PFA-device-540"
     }
 }
