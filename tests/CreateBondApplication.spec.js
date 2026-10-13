@@ -9,8 +9,8 @@ import {
 import pfaLogin from "../test-data/loginData.json";
 
 const testExcelData = readExcel(
-  "test-data/filtered_person_data.xlsx",
-  "Extracted Data",
+  "test-data/experian_test_data.xlsx",
+  "Image Extract",
 );
 
 test("Create a Bond Application", async ({ browser }) => {
@@ -18,41 +18,41 @@ test("Create a Bond Application", async ({ browser }) => {
   // const page = authenticationPage;
   const context = await browser.newContext();
 
-
   //// DEV
-  // await context.grantPermissions(["notifications"], {
-  //   origin: "https://dev.suretyforce.com/login",
-  // });
+  await context.grantPermissions(["notifications"], {
+    origin: "https://dev.suretyforce.com/login",
+  });
 
   //Staging
-  await context.grantPermissions(["notifications"],{
-    origin: "https://staging.suretyforce.com/login"
+  await context.grantPermissions(["notifications"], {
+    origin: "https://staging.suretyforce.com/login",
   });
 
   const page = await context.newPage();
 
-
   //DEV
-  // await page.goto("https://dev.suretyforce.com/login");
+  await page.goto("https://dev.suretyforce.com/login");
 
   //STAGING
-  await page.goto("https://staging.suretyforce.com/login");
+  // await page.goto("https://staging.suretyforce.com/login");
 
   await page.waitForLoadState("domcontentloaded");
 
-  // // Login for DEV
-  // await page
-  //   .getByPlaceholder("johndoe@email.com")
-  //   .fill(pfaLogin.pfaData.userName);
-  // await page.getByPlaceholder("••••••••").fill(pfaLogin.pfaData.password);
-  // await page.getByRole("button", { name: "Sign In", exact: true }).click();
-
-  // Login for Staging
+  // Login for DEV
   await page
     .getByPlaceholder("johndoe@email.com")
-    .fill(pfaLogin.pfaStagingData.userName);
-  await page.getByPlaceholder("••••••••").fill(pfaLogin.pfaStagingData.password);
+    .fill(pfaLogin.pfaData.userName);
+  await page.getByPlaceholder("••••••••").fill(pfaLogin.pfaData.password);
   await page.getByRole("button", { name: "Sign In", exact: true }).click();
+
+  // // Login for Staging
+  // await page
+  //   .getByPlaceholder("johndoe@email.com")
+  //   .fill(pfaLogin.pfaStagingData.userName);
+  // await page
+  //   .getByPlaceholder("••••••••")
+  //   .fill(pfaLogin.pfaStagingData.password);
+  // await page.getByRole("button", { name: "Sign In", exact: true }).click();
 
   //Skip MFA
   await page.getByRole("button", { name: "Skip for Now", exact: true }).click();
@@ -64,7 +64,7 @@ test("Create a Bond Application", async ({ browser }) => {
   await page.waitForURL((url) => url.href.includes("bonds"));
 
   // Read details from 1st row
-  const applicationData = testExcelData[17];
+  const applicationData = testExcelData[11];
   console.log(applicationData);
 
   const firstName = applicationData["First Name"];
@@ -80,7 +80,7 @@ test("Create a Bond Application", async ({ browser }) => {
   console.log("Phone Number: " + phoneNumber);
 
   //Email creation
-  let email = `rohith+${firstName}@coreaiconsulting.com`;
+  let email = `rohith+${firstName}01@coreaiconsulting.com`;
   //Company Name Creation
   let companyName = `${firstName} Trucking Services`;
   //Generate Random DOT Number
@@ -125,7 +125,7 @@ test("Create a Bond Application", async ({ browser }) => {
   await page.getByPlaceholder("Company name").fill(companyName);
   await page.locator("input#nc-dotNumber").fill(dotNumber.toString());
 
-  await page.pause();
+  // await page.pause();
 
   await page
     .getByRole("button", { name: "Start Application", exact: true })
@@ -248,9 +248,19 @@ test("Create a Bond Application", async ({ browser }) => {
     ).toBeVisible();
   }
 
-  let fullTextCreditScore = await page
-    .locator("div.text-green-800 span")
-    .textContent();
+  // let fullTextCreditScore = await page
+  //   .locator("div.text-green-800 span")
+  //   .textContent();
+
+  // let fullTextCreditScore = await page
+  //   .locator('div').filter({hasText: /^Credit check completed\. Score: \d+$/}).textContent();
+
+  const creditScoreMessage = page.getByText(/Credit check completed/);
+  await creditScoreMessage.waitFor({ state: "visible" });
+
+  const fullTextCreditScore = await creditScoreMessage.textContent();
+
+  console.log(fullTextCreditScore);
 
   let scoreText = fullTextCreditScore.split(".")[1];
 
@@ -304,7 +314,8 @@ test("Create a Bond Application", async ({ browser }) => {
 
   await page.getByText("View Details").click();
 
-  //Click on Quotes Tab
+
+  // Click the Quotes tab
 
   await page.locator("div[role='tablist'] button").nth(2).click();
 
@@ -316,14 +327,30 @@ test("Create a Bond Application", async ({ browser }) => {
 
   await page.getByRole("button", { name: "Send Quote" }).click();
 
-  const acceptQuote = page.getByRole("button", { name: "Accept" });
 
-  if (acceptQuote.isDisabled()) {
-    await page.locator("button.border-purple-300").click();
+  const acceptQuoteBtn = page.getByRole("button", {
+    name: "Accept",
+    exact: true,
+  });
 
-    await acceptQuote.click();
+  await acceptQuoteBtn.scrollIntoViewIfNeeded();
+  await expect(acceptQuoteBtn).toBeVisible();
+
+  if (await acceptQuoteBtn.isEnabled()) {
+    // Credit score is above 800
+    await acceptQuoteBtn.click();
+  } else {
+    // Credit score is 800 or below
+    const quarterlyInstallmentBtn = page.getByRole("button", {
+      name: /Quarterly Installment \$/,
+    });
+
+    await expect(quarterlyInstallmentBtn).toBeVisible();
+    await quarterlyInstallmentBtn.click();
+
+    await expect(acceptQuoteBtn).toBeEnabled();
+    await acceptQuoteBtn.click();
   }
-
   //Click on Move to Underwriting
 
   const moveToUnderwritingBtn = page.getByRole("button", {
@@ -343,7 +370,9 @@ test("Create a Bond Application", async ({ browser }) => {
   await moveToUnderwritingBtn.click();
 
   // IMPORTANT: verify the application actually moved
-  await expect(page.getByText("Underwriting Pending", { exact: true })).toBeVisible({
+  await expect(
+    page.getByText("Underwriting Pending", { exact: true }),
+  ).toBeVisible({
     timeout: 30000,
   });
 });

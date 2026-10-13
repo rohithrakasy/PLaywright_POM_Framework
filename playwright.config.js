@@ -8,7 +8,7 @@ export default defineConfig({
 
   // workers:3,
 
-  // retries: 2,
+  //  retries: 2,
 
   // projects: [{
   //   name: 'chromium',
