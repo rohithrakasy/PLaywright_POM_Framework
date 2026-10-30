@@ -64,7 +64,7 @@ test("Create a Bond Application", async ({ browser }) => {
   await page.waitForURL((url) => url.href.includes("bonds"));
 
   // Read details from 1st row
-  const applicationData = testExcelData[11];
+  const applicationData = testExcelData[12];
   console.log(applicationData);
 
   const firstName = applicationData["First Name"];

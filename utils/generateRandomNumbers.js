@@ -13,3 +13,10 @@ export function generateDotNumber(){
 
     return generateDot;
 }
+
+export function generateSegmentNumber(){
+
+    const generateSegment = Math.floor(100000+Math.random()*900000);
+
+    return generateSegment;
+}
